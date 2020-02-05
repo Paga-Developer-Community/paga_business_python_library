@@ -34,13 +34,11 @@ class BusinessClient(object):
                 'customerGender': customer_gender}
 
         pattern = reference_number + customer_phone_number + first_name + last_name + self.apiKey
-        print pattern
 
         hash_strings = self.generate_hash(pattern)
 
         # url = self.url(self.test)
         server_url = self.url(self.test) + endpoint
-        print server_url
         headers = {
             'credentials': self.credential,
             'Accept': 'application/json',
@@ -51,7 +49,6 @@ class BusinessClient(object):
 
         customer = json.dumps(data)
         up = {'customer': (customer, "multipart/form-data")}
-        print customer
         response = requests.request(method="POST", url=server_url, headers=headers, data=up)
         return response.text
 
@@ -98,7 +95,6 @@ class BusinessClient(object):
         pattern = reference_number + self.apiKey
 
         hash_strings = self.generate_hash(pattern)
-        print hash_strings
 
         url = self.url(self.test)
         server_url = url + endpoint
@@ -386,19 +382,17 @@ class BusinessClient(object):
         data = {'items': money_transfer_items,
                 'bulkReferenceNumber': bulk_reference_number}
 
-        print str(len(money_transfer_items))
+   
 
         pattern = money_transfer_items[0]['referenceNumber'] + str(money_transfer_items[0]['amount']) \
                   + money_transfer_items[0]['destinationAccount'] + str(len(money_transfer_items)) + self.apiKey
 
         hash_strings = self.generate_hash(pattern)
 
-        print hash_strings
 
         url = self.url(self.test)
         server_url = url + endpoint
 
-        print data
 
         headers = self.build_header(hash_strings)
         json_data = json.dumps(data)
@@ -452,11 +446,9 @@ class BusinessClient(object):
         print(json.dumps(json_data))
 
         pattern = reference_number+merchant_external_id+name+phone+email+self.apiKey
-        print pattern
 
         hash_strings = self.generate_hash(pattern)
 
-        print hash_strings
 
         url = self.url(self.test)
         server_url = url + endpoint
@@ -491,7 +483,6 @@ class BusinessClient(object):
 
             list_of_transactions.append(transactions)
 
-        print len(list_of_transactions)
         return list_of_transactions
 
     @staticmethod
