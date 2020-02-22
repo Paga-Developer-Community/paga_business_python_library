@@ -13,7 +13,7 @@ test_server = "https://beta.mypaga.com/"
 live_Server = "https://www.mypaga.com/"
 
 
-class Business_Client(object):
+class BusinessClient(object):
 
     def __init__(self, principal, apiKey, credential, test):
         self.principal = principal
