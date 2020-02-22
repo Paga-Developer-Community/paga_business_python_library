@@ -4,7 +4,8 @@ import json
 
 
 def post_request(headers, json_data, url):
-    response = requests.request(method="POST", url=url, headers=headers, data=json_data)
+    response = requests.request(
+        method="POST", url=url, headers=headers, data=json_data)
     return response
 
 
@@ -12,7 +13,7 @@ test_server = "https://beta.mypaga.com/"
 live_Server = "https://www.mypaga.com/"
 
 
-class BusinessClient(object):
+class Business_Client(object):
 
     def __init__(self, principal, apiKey, credential, test):
         self.principal = principal
@@ -33,7 +34,8 @@ class BusinessClient(object):
                 'customerDateOfBirth': customer_date_birth,
                 'customerGender': customer_gender}
 
-        pattern = reference_number + customer_phone_number + first_name + last_name + self.apiKey
+        pattern = reference_number + customer_phone_number + \
+            first_name + last_name + self.apiKey
 
         hash_strings = self.generate_hash(pattern)
 
@@ -49,7 +51,8 @@ class BusinessClient(object):
 
         customer = json.dumps(data)
         up = {'customer': (customer, "multipart/form-data")}
-        response = requests.request(method="POST", url=server_url, headers=headers, data=up)
+        response = requests.request(
+            method="POST", url=server_url, headers=headers, data=up)
         return response.text
 
     def money_transfer(self, reference_number, amount, currency, destination_account, destination_bank,
@@ -117,7 +120,8 @@ class BusinessClient(object):
                 'purchaser_principal': purchaser_credentials,
                 'sourceOfFunds': source_of_funds,
                 'locale': locale}
-        pattern = reference_number + str(amount) + destination_number + self.apiKey
+        pattern = reference_number + \
+            str(amount) + destination_number + self.apiKey
 
         hash_strings = self.generate_hash(pattern)
 
@@ -145,7 +149,9 @@ class BusinessClient(object):
                 'recipientName': recipient_name,
                 'locale': locale}
 
-        pattern = reference_number + str(amount) + destination_bank_uuid + destination_bank_acct_no + self.apiKey
+        pattern = reference_number + \
+            str(amount) + destination_bank_uuid + \
+            destination_bank_acct_no + self.apiKey
 
         hash_strings = self.generate_hash(pattern)
 
@@ -157,7 +163,7 @@ class BusinessClient(object):
         response = post_request(headers, json_data, server_url)
         return response.text
 
-    def deposit_to_bank(self,reference_number , amount, currency, destination_bank_uuid,
+    def deposit_to_bank(self, reference_number, amount, currency, destination_bank_uuid,
                         destination_bank_acct_no, recipient_no, recipient_mobile_operator_code,
                         recipient_email, recipient_name, alt_sender_name, suppress_recipient_msg,
                         remarks, locale):
@@ -352,7 +358,9 @@ class BusinessClient(object):
                 'sourceOfFunds': source_of_funds,
                 'locale': locale}
 
-        pattern = reference_number + str(amount) + merchant_account + merchant_reference_number + self.apiKey
+        pattern = reference_number + \
+            str(amount) + merchant_account + \
+            merchant_reference_number + self.apiKey
 
         hash_strings = self.generate_hash(pattern)
 
@@ -382,17 +390,14 @@ class BusinessClient(object):
         data = {'items': money_transfer_items,
                 'bulkReferenceNumber': bulk_reference_number}
 
-   
-
         pattern = money_transfer_items[0]['referenceNumber'] + str(money_transfer_items[0]['amount']) \
-                  + money_transfer_items[0]['destinationAccount'] + str(len(money_transfer_items)) + self.apiKey
+            + money_transfer_items[0]['destinationAccount'] + \
+            str(len(money_transfer_items)) + self.apiKey
 
         hash_strings = self.generate_hash(pattern)
 
-
         url = self.url(self.test)
         server_url = url + endpoint
-
 
         headers = self.build_header(hash_strings)
         json_data = json.dumps(data)
@@ -400,17 +405,17 @@ class BusinessClient(object):
 
         return response.text
 
-    def onboard_merchant(self,reference_number, merchant_external_id, name, description, address_line1, address_line2,
-                         address_city, address_state, address_zip, address_country,first_name, last_name, date_of_birth,
-                         phone,email, established_date, website_url, display_name, type, finance_admin_email):
+    def onboard_merchant(self, reference_number, merchant_external_id, name, description, address_line1, address_line2,
+                         address_city, address_state, address_zip, address_country, first_name, last_name, date_of_birth,
+                         phone, email, established_date, website_url, display_name, type, finance_admin_email):
 
-        endpoint  = "paga-webservices/business-rest/secured/onboardMerchant"
+        endpoint = "paga-webservices/business-rest/secured/onboardMerchant"
         json_data = {}
         merchantInfo = {}
         legalEntity = {}
         legalEntityRepresentative = {}
         additionalParameters = {}
-        integration= {}
+        integration = {}
 
         legalEntity['name'] = name
         legalEntity['description'] = description
@@ -449,7 +454,6 @@ class BusinessClient(object):
 
         hash_strings = self.generate_hash(pattern)
 
-
         url = self.url(self.test)
         server_url = url + endpoint
 
@@ -460,25 +464,23 @@ class BusinessClient(object):
 
         return response.text
 
-
-
     def get_transactions(self, *args):
         list_of_transactions = []
 
         for transaction_elements in args:
 
             transactions = {
-                    "referenceNumber": transaction_elements[0],
-                    "amount": transaction_elements[1],
-                    "currency": transaction_elements[2],
-                    "destinationAccount": transaction_elements[3],
-                    "destinationBank": transaction_elements[4],
-                    "transferReference": transaction_elements[5],
-                    "sourceOfFunds": transaction_elements[6],
-                    "sendWithdrawalCode": transaction_elements[7],
-                    "suppressRecipientMessage": transaction_elements[8],
-                    "minRecipentKYCLevel": transaction_elements[9],
-                    "holdingPeriod": transaction_elements[10]
+                "referenceNumber": transaction_elements[0],
+                "amount": transaction_elements[1],
+                "currency": transaction_elements[2],
+                "destinationAccount": transaction_elements[3],
+                "destinationBank": transaction_elements[4],
+                "transferReference": transaction_elements[5],
+                "sourceOfFunds": transaction_elements[6],
+                "sendWithdrawalCode": transaction_elements[7],
+                "suppressRecipientMessage": transaction_elements[8],
+                "minRecipentKYCLevel": transaction_elements[9],
+                "holdingPeriod": transaction_elements[10]
             }
 
             list_of_transactions.append(transactions)
