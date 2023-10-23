@@ -5,7 +5,7 @@ import json
 
 def post_request(headers, json_data, url):
     response = requests.request(
-        method="POST", url=url, headers=headers, data=json_data)
+        method="POST", url=url, headers=headers, json=json_data)
     return response
 
 
